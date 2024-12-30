@@ -160,18 +160,27 @@
       const signatureContainer = document.getElementById('signature-container');
       const feedback = document.getElementById('copy-feedback');
       
-      // Select the signature content
-      const range = document.createRange();
-      range.selectNodeContents(signatureContainer);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-
-      // Show feedback message
-      feedback.textContent = 'Signature selected! Press Ctrl/Cmd + C to copy';
-      feedback.style.display = 'inline';
+      try {
+        // For iOS
+        if (document.body.createTextRange) {
+          const range = document.body.createTextRange();
+          range.moveToElementText(signatureContainer);
+          range.select();
+        }
+        // For most other platforms
+        else if (window.getSelection) {
+          const range = document.createRange();
+          range.selectNodeContents(signatureContainer);
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+        feedback.textContent = 'Signature selected! Press Ctrl/Cmd + C to copy';
+      } catch (err) {
+        feedback.textContent = 'Please select and copy manually';
+      }
       
-      // Clear feedback after 3 seconds
+      feedback.style.display = 'inline';
       setTimeout(() => {
         feedback.style.display = 'none';
       }, 3000);
