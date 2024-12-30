@@ -158,32 +158,22 @@
 
     function selectAndCopySignature() {
       const signatureContainer = document.getElementById('signature-container');
-      const feedback = document.getElementById('copy-feedback');
+      signatureContainer.setAttribute('contenteditable', 'true');
+      // Programmatically focus and select
+      signatureContainer.focus();
       
-      try {
-        // For iOS
-        if (document.body.createTextRange) {
-          const range = document.body.createTextRange();
-          range.moveToElementText(signatureContainer);
-          range.select();
-        }
-        // For most other platforms
-        else if (window.getSelection) {
-          const range = document.createRange();
-          range.selectNodeContents(signatureContainer);
-          const selection = window.getSelection();
-          selection.removeAllRanges();
-          selection.addRange(range);
-        }
-        feedback.textContent = 'Signature selected! Press Ctrl/Cmd + C to copy';
-      } catch (err) {
-        feedback.textContent = 'Please select and copy manually';
-      }
+      // Attempt to select
+      const range = document.createRange();
+      range.selectNodeContents(signatureContainer);
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
       
-      feedback.style.display = 'inline';
+      // Optionally revert contenteditable
       setTimeout(() => {
-        feedback.style.display = 'none';
-      }, 3000);
+        signatureContainer.removeAttribute('contenteditable');
+        signatureContainer.blur();
+      }, 1000);
     }
 
     // Format phone number as user types
