@@ -90,10 +90,11 @@
 
     function updateSignature() {
       var name = document.getElementById('name').value || 'Your Name';
+      var firstName = name.split(' ')[0].toLowerCase();
       var position = document.getElementById('position').value || 'MY AWESOME JOB';
       var mobile = formatPhoneNumber(document.getElementById('mobile').value || '0412345678');
       var mobileForTel = formatPhoneNumberForTel(document.getElementById('mobile').value || '0412345678');
-      var email = document.getElementById('email').value || 'hello@diolog.com.au';
+      var email = firstName + '@diolog.com.au';
 
       var signatureHtml = `
 <table width="659" role="presentation" border="0" cellspacing="0" cellpadding="0" class="signature-table" style="font-family: 'Inter', -apple-system, Arial, sans-serif; font-size: 13px; line-height: 20px; color: #000000; letter-spacing: 3%; max-width: 659px;">
@@ -138,7 +139,7 @@
     <!-- Banner row: full-width image matching container width -->
     <tr style="padding-bottom: 20px;">
       <td colspan="4">
-        <a href="https://www.diolog.com.au/diolog-app">
+        <a href="https://diolog.page.link/openApp">
           <img
             src="diolog_email_banner2x.png"
             alt="Download the Diolog App"
@@ -211,11 +212,6 @@
   <div class="input-container">
     <label for="mobile">Phone number</label>
     <input type="tel" id="mobile" placeholder="0412 345 678" oninput="updateSignature()" />
-  </div>
-
-  <div class="input-container">
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="hello@diolog.com.au" oninput="updateSignature()" />
   </div>
 
   <button onclick="selectAndCopySignature()" class="copy-button">Select Signature</button>
